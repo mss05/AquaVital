@@ -1,35 +1,69 @@
-<div id="app">
-    <section id="screen-dashboard" class="app-screen">
-        <header class="wallet-header">
-            <div class="user-info" onclick="showScreen('screen-profile')">
-                <img src="assets/avatar_placeholder.png" id="user-avatar">
-                <span>My Profile</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AquaVital - World Cup 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <section id="screen-auth" class="screen">
+            <div class="auth-card">
+                <img src="assets/logo.png" class="logo">
+                <h1>Join the Journey!</h1>
+                <p>Register to win World Cup tickets</p>
+                <div class="form-group">
+                    <input type="text" id="reg-name" placeholder="Full Name">
+                    <input type="email" id="reg-email" placeholder="Email Address">
+                    <input type="tel" id="reg-phone" placeholder="Phone (e.g. +55...)">
+                </div>
+                <button onclick="app.completeAuth()" class="btn-gold">START WINNING</button>
             </div>
-            <div class="balance-card">
-                <p>World Cup Entries</p>
-                <h2 id="entry-count">12/20</h2>
+        </section>
+
+        <section id="screen-dash" class="screen" style="display:none;">
+            <header class="main-header">
+                <div class="profile-summary">
+                    <div class="avatar" onclick="app.showScreen('screen-auth')">👤</div>
+                    <span id="display-name">Hello!</span>
+                </div>
+                <div class="wallet">
+                    <p>YOUR ENTRIES</p>
+                    <h2 id="entry-count">0</h2>
+                </div>
+            </header>
+
+            <div class="ai-coach-card">
+                <div class="coach-icon">🤖</div>
+                <div class="coach-text">
+                    <h3>AI Hydration Coach</h3>
+                    <p id="ai-status">Checking São Paulo heat...</p>
+                </div>
             </div>
-        </header>
-        <button class="scan-main-btn" onclick="showScreen('screen-scanner')">SCAN NOW</button>
-    </section>
 
-    <section id="screen-scanner" class="app-screen" style="display:none;">
-        <div class="camera-view">
-            <div class="scan-frame"></div>
-        </div>
-        <div class="manual-entry">
-            <input type="text" id="manual-code" placeholder="Enter 10-digit code">
-            <button onclick="processCode()">SUBMIT CODE</button>
-            <button class="back-link" onclick="showScreen('screen-dashboard')">Back</button>
-        </div>
-    </section>
+            <nav class="action-grid">
+                <button onclick="app.showScreen('screen-scan')" class="action-btn">
+                    <span>📸</span><br>Scan QR
+                </button>
+                <button onclick="app.showScreen('screen-manual')" class="action-btn">
+                    <span>⌨️</span><br>Enter Code
+                </button>
+            </nav>
+        </section>
 
-    <section id="screen-profile" class="app-screen" style="display:none;">
-        <h3>Complete Your Profile</h3>
-        <input type="text" id="p-name" placeholder="Full Name">
-        <input type="email" id="p-email" placeholder="Email Address">
-        <input type="tel" id="p-phone" placeholder="Phone Number">
-        <button onclick="saveProfile()">SAVE & WIN</button>
-        <button class="back-link" onclick="showScreen('screen-dashboard')">Back</button>
-    </section>
-</div>
+        <section id="screen-manual" class="screen" style="display:none;">
+            <div class="manual-card">
+                <button class="btn-back" onclick="app.showScreen('screen-dash')">← Back</button>
+                <h2>Enter Cap Code</h2>
+                <p>Type the 10-digit code found under the cap</p>
+                <input type="text" id="cap-code-input" maxlength="10" placeholder="A1B2C3D4E5">
+                <button onclick="app.submitCode()" class="btn-blue">REDEEM CODE</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="javascript.js"></script>
+</body>
+</html>
