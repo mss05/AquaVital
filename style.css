@@ -2,53 +2,39 @@
     --aqua: #00AEEF;
     --gold: #FEDD00;
     --green: #009739;
-    --white: #ffffff;
-    --dark: #1a1a1a;
+    --dark-blue: #0A192F;
+    --white: #FFFFFF;
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body { margin: 0; font-family: 'Inter', sans-serif; background: #f0f4f7; overflow: hidden; }
+* { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background-color: var(--dark-blue); color: var(--white); overflow: hidden; }
 
-.screen { height: 100vh; width: 100%; display: flex; flex-direction: column; }
+.screen { height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow-y: auto; }
 
-/* Auth Screen */
-#screen-auth { 
-    background: linear-gradient(135deg, var(--aqua), var(--green)); 
-    justify-content: center; align-items: center; 
-}
-.auth-card { 
-    background: var(--white); width: 85%; padding: 30px; 
-    border-radius: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
-.form-group input { 
-    width: 100%; padding: 15px; margin: 10px 0; 
-    border: 2px solid #eee; border-radius: 12px; font-size: 16px; 
-}
+/* Auth & Forms */
+#screen-auth { background: url('assets/auth_bg.png') center/cover; }
+.overlay { background: rgba(10, 25, 47, 0.8); height: 100%; display: flex; align-items: center; justify-content: center; }
+.auth-box { width: 90%; background: var(--white); border-radius: 30px; padding: 30px; color: var(--dark-blue); text-align: center; }
+.app-logo { width: 140px; margin-bottom: 20px; }
+input { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #EEE; border-radius: 15px; font-size: 16px; }
 
-/* Dashboard */
-.main-header { 
-    background: var(--aqua); color: white; padding: 40px 20px; 
-    border-radius: 0 0 40px 40px; 
-}
-.wallet { 
-    background: rgba(255,255,255,0.2); padding: 20px; 
-    border-radius: 20px; margin-top: 20px; text-align: center;
-}
-.ai-coach-card { 
-    margin: 20px; padding: 20px; background: white; 
-    border-radius: 20px; display: flex; align-items: center;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-}
+/* Dashboard UI */
+.dash-header { background: var(--aqua); padding: 40px 20px 60px; border-radius: 0 0 40px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.wallet-card { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 25px; border-radius: 25px; margin-top: 25px; display: flex; align-items: center; }
+.ticket-icon { font-size: 40px; margin-right: 20px; }
 
-/* Buttons */
-.btn-gold { 
-    background: var(--gold); border: none; padding: 18px; 
-    width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; 
-}
-.action-grid { 
-    display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; 
-}
-.action-btn { 
-    background: white; border: 2px solid #eee; padding: 25px; 
-    border-radius: 20px; font-weight: bold; 
-}
+.ai-status-card { margin: -30px 20px 20px; background: var(--white); color: var(--dark-blue); padding: 20px; border-radius: 25px; display: flex; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+.ai-icon { font-size: 30px; background: #E0F7FA; padding: 10px; border-radius: 15px; margin-right: 15px; }
+
+.actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px; }
+.action-item { background: var(--white); border: none; padding: 30px 10px; border-radius: 25px; color: var(--dark-blue); font-weight: bold; cursor: pointer; transition: 0.3s; }
+
+/* QR Scanner Styles */
+#qr-reader { width: 100%; height: 100%; object-fit: cover; }
+.scan-controls { position: absolute; bottom: 50px; width: 100%; text-align: center; pointer-events: none; }
+.scan-target { width: 250px; height: 250px; border: 4px solid var(--gold); border-radius: 30px; margin: 0 auto 30px; box-shadow: 0 0 0 5000px rgba(0,0,0,0.6); }
+.btn-cancel { pointer-events: auto; background: var(--white); color: red; border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; }
+
+/* Common Buttons */
+.btn-primary-gold { background: var(--gold); border: none; width: 100%; padding: 18px; border-radius: 15px; font-weight: 800; font-size: 16px; cursor: pointer; }
+.btn-redeem { background: var(--aqua); color: white; border: none; width: 100%; padding: 18px; border-radius: 15px; font-weight: bold; margin-top: 20px; }
