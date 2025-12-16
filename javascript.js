@@ -9,7 +9,7 @@ const app = {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
         
-        // Menü yönetimi (sadece Home ve Manual'de mantıklı)
+        // Menü yönetimi
         const nav = document.getElementById('bottom-nav');
         if(pageId === 'page-home') nav.style.display = 'flex';
         else nav.style.display = 'none';
@@ -33,7 +33,7 @@ const app = {
         app.notify("Giriş Başarılı! Bol şans.");
     },
 
-    // Hak Ekleme (Tek Mantık)
+    // Hak Ekleme
     addEntry: () => {
         app.user.entries++;
         document.getElementById('entry-count').innerText = app.user.entries;
