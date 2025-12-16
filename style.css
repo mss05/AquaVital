@@ -1,76 +1,122 @@
 :root {
     --blue: #00AEEF;
     --yellow: #FEDD00;
-    --green: #009739;
     --dark: #0f172a;
-    --white: #ffffff;
+    --white: #fff;
+    --bg-gray: #f3f4f6;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-body { background: var(--dark); overflow: hidden; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
 
-/* Ekran Yönetimi */
-.view { display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; flex-direction: column; }
-.view.active { display: flex; }
-
-/* Giriş Ekranı */
-#screen-auth {
-    background: url('auth_bg.png') no-repeat center center/cover; /* Aynı klasörden çeker */
-    justify-content: center; align-items: center;
-}
-.logo { width: 150px; margin-bottom: 20px; }
-.glass-form {
-    background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 20px;
-    width: 90%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+body {
+    background-color: #e5e5e5;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
-/* Form Elemanları */
-input {
-    width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #ddd;
-    border-radius: 12px; font-size: 16px;
+/* --- IPHONE KASASI --- */
+.phone-case {
+    width: 375px; height: 812px;
+    background: black;
+    border-radius: 40px;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    border: 12px solid #111;
+    overflow: hidden;
 }
-.btn-main {
-    background: var(--yellow); border: none; width: 100%; padding: 18px;
-    border-radius: 12px; font-weight: 800; cursor: pointer; color: var(--dark);
-    margin-top: 10px; box-shadow: 0 4px 10px rgba(254, 221, 0, 0.4);
+.notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 150px; height: 30px; background: #111;
+    border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;
+    z-index: 1000;
 }
+.screen-content {
+    width: 100%; height: 100%;
+    background: white; position: relative;
+}
+
+/* MOBİLDE KASAYI KALDIR (Tam Ekran) */
+@media (max-width: 500px) {
+    .phone-case { width: 100%; height: 100%; border: none; border-radius: 0; }
+    .notch { display: none; }
+    body { background: white; }
+}
+
+/* --- EKRANLAR --- */
+.app-view {
+    display: none; width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    flex-direction: column;
+}
+.app-view.active { display: flex; }
+
+/* Auth Ekranı */
+#view-auth {
+    background: var(--blue);
+    justify-content: center; align-items: center; text-align: center;
+}
+.bg-overlay {
+    position: absolute; width: 100%; height: 100%;
+    background: url('auth_bg.png') center/cover; opacity: 0.3;
+}
+.auth-box {
+    z-index: 2; width: 85%;
+    background: rgba(255,255,255,0.95); padding: 30px;
+    border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+.app-logo { width: 100px; margin-bottom: 15px; }
 
 /* Dashboard */
-.top-header {
-    background: var(--blue); padding: 40px 20px 30px;
-    border-radius: 0 0 30px 30px; color: var(--white);
+.header-blue {
+    background: var(--blue); padding: 50px 20px 20px;
+    color: white; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;
 }
+.scroll-body { padding: 20px; flex: 1; overflow-y: auto; }
+
 .wallet-card {
-    background: url('wallet_card.png') center/cover; /* Aynı klasörden çeker */
-    margin-top: 20px; padding: 25px; border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2); position: relative; color: white;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    background: linear-gradient(135deg, #003366, #004080);
+    background-image: url('wallet_card.png'); background-size: cover;
+    color: white; padding: 25px; border-radius: 20px;
+    margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
-.wallet-card h1 { font-size: 48px; margin: 10px 0; }
+.wallet-card h1 { font-size: 42px; margin: 5px 0; color: var(--yellow); }
+.tag { background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 20px; font-size: 12px; display: inline-block; }
 
-/* AI Kutusu */
-.ai-box {
-    background: white; margin: 20px; padding: 20px; border-radius: 15px;
-    display: flex; align-items: center; gap: 15px;
+.ai-widget {
+    background: #eefbff; border-left: 5px solid var(--blue);
+    padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
 }
-.status-indicator { width: 15px; height: 15px; background: var(--green); border-radius: 50%; box-shadow: 0 0 10px var(--green); }
+.status-light { width: 12px; height: 12px; background: red; border-radius: 50%; }
 
-/* Butonlar */
-.action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
-.action-btn {
-    background: white; border: none; padding: 25px; border-radius: 20px;
-    font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.grid-btn {
+    background: white; border: 2px solid #eee; border-radius: 16px;
+    padding: 20px; font-weight: 600; cursor: pointer; font-size: 14px;
 }
+.grid-btn .icon { font-size: 28px; display: block; margin-bottom: 5px; }
 
-/* Scanner & Manual */
-.scan-overlay {
-    position: absolute; bottom: 50px; width: 100%; text-align: center; pointer-events: none;
+/* Formlar */
+input {
+    width: 100%; padding: 15px; margin: 15px 0;
+    border: 2px solid #ddd; border-radius: 12px; font-size: 16px;
+}
+.btn-primary {
+    background: var(--yellow); border: none; width: 100%; padding: 16px;
+    border-radius: 12px; font-weight: 700; cursor: pointer; color: #333;
 }
 .btn-close {
-    pointer-events: auto; background: white; border: none; padding: 10px 30px;
-    border-radius: 30px; font-weight: bold; margin-top: 20px;
+    background: white; color: #333; border: none; padding: 12px 30px;
+    border-radius: 30px; font-weight: 600; margin-top: 20px; pointer-events: auto;
 }
-.manual-box {
-    background: white; height: 100%; padding: 40px 20px;
+
+/* Kamera Overlay */
+.scan-ui {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+    padding-bottom: 50px; pointer-events: none; z-index: 10;
 }
-.btn-back { background: none; border: none; font-size: 16px; font-weight: bold; color: var(--blue); cursor: pointer; margin-bottom: 20px; }
+.scan-ui p { color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 10px; }
+#reader { width: 100%; height: 100%; object-fit: cover; }
