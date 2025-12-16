@@ -1,30 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaVital - Hidratação Funcional</title>
+    <title>AquaVital - Scan & Win</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <div id="app">
-        <header>
-            <img src="logo.png" alt="AquaVital Logo" class="logo">
-            <h1>Olá, Campeão!</h1>
+    <div id="app-shell">
+        <header class="wallet-header">
+            <div class="user-info">
+                <img src="assets/avatar.png" class="avatar">
+                <span>Hey, Silva! 🇧🇷</span>
+            </div>
+            <div class="balance-card">
+                <p>World Cup Entries</p>
+                <h2 id="entry-count">0</h2>
+            </div>
         </header>
-        
-        <main>
-            <section class="hydration-card">
-                <h2>Nível de Hidratação</h2>
-                <div class="progress-circle">
-                    <span id="hydration-percent">0%</span>
-                </div>
-                <p id="weather-info">Carregando clima de São Paulo...</p>
-            </section>
 
-            <button id="scan-btn" class="primary-btn">ESCANEIE PARA GANHAR (Copa 2026)</button>
-        </main>
+        <nav class="action-grid">
+            <div class="action-item" id="scan-code">
+                <img src="assets/qr-icon.png">
+                <span>Enter Code</span>
+            </div>
+            <div class="action-item">
+                <img src="assets/wallet-icon.png">
+                <span>My Rewards</span>
+            </div>
+        </nav>
+
+        <section class="hydration-monitor">
+            <h3>Smart Hydration Coach</h3>
+            <div class="status-box">
+                <p id="ai-advice">Analyzing Brazil heat levels...</p>
+                <div class="progress-bar"><div id="fill"></div></div>
+            </div>
+        </section>
     </div>
     <script src="javascript.js"></script>
 </body>
