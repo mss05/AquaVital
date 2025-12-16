@@ -3,85 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AquaVital - World Cup 2026</title>
-    
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#00AEEF">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>AquaVital App</title>
     <link rel="stylesheet" href="style.css">
-
     <script src="https://unpkg.com/html5-qrcode"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="app">
-        
-        <section id="screen-auth" class="view active">
-            <div class="auth-container">
-                <img src="logo.png" alt="AquaVital Logo" class="logo">
-                <div class="glass-form">
-                    <h2>Join the Team! 🇧🇷</h2>
-                    <p>Win a trip to World Cup 2026</p>
-                    <input type="text" id="user-name" placeholder="Full Name" required>
-                    <input type="email" id="user-email" placeholder="Email Address" required>
-                    <input type="tel" id="user-phone" placeholder="Phone Number">
-                    <button onclick="app.login()" class="btn-main">START WINNING</button>
+    <div class="phone-case">
+        <div class="notch"></div>
+        <div class="screen-content">
+            
+            <section id="view-auth" class="app-view active">
+                <div class="bg-overlay"></div>
+                <div class="auth-box">
+                    <img src="logo.png" alt="AquaVital" class="app-logo">
+                    <h1>AquaVital</h1>
+                    <p>World Cup 2026 Journey</p>
+                    <div class="input-group">
+                        <input type="text" id="user-name" placeholder="Enter Your Name">
+                    </div>
+                    <button onclick="app.login()" class="btn-primary">START APP</button>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="screen-dash" class="view">
-            <header class="top-header">
-                <div class="user-info">
-                    <div class="avatar-circle">👤</div>
-                    <span id="display-name">Welcome!</span>
-                </div>
-                <div class="wallet-card">
-                    <p>WORLD CUP ENTRIES</p>
-                    <h1 id="entry-count">0</h1>
-                    <small>Ticket ID: #AV-2026-BR</small>
-                </div>
-            </header>
+            <section id="view-dash" class="app-view">
+                <header class="header-blue">
+                    <div class="user-row">
+                        <div class="avatar">👤</div>
+                        <span id="display-name">Guest</span>
+                    </div>
+                </header>
 
-            <main>
-                <div class="ai-box">
-                    <div class="status-indicator"></div>
-                    <div class="ai-text">
-                        <h4>AI Hydration Coach</h4>
-                        <p id="ai-msg">Analyzing São Paulo weather...</p>
+                <div class="scroll-body">
+                    <div class="wallet-card">
+                        <small>Total Entries</small>
+                        <h1 id="ticket-count">0</h1>
+                        <div class="tag">World Cup 2026 Draw 🇧🇷</div>
+                    </div>
+
+                    <div class="ai-widget">
+                        <div class="status-light"></div>
+                        <p id="ai-text">Connecting to weather API...</p>
+                    </div>
+
+                    <div class="action-grid">
+                        <button onclick="app.startScanner()" class="grid-btn">
+                            <span class="icon">📸</span>
+                            <span>Scan QR</span>
+                        </button>
+                        <button onclick="app.openManual()" class="grid-btn">
+                            <span class="icon">⌨️</span>
+                            <span>Enter Code</span>
+                        </button>
                     </div>
                 </div>
+            </section>
 
-                <div class="action-buttons">
-                    <button onclick="app.openScanner()" class="action-btn">
-                        <span style="font-size: 24px;">📸</span><br>Scan QR
-                    </button>
-                    <button onclick="app.openManual()" class="action-btn">
-                        <span style="font-size: 24px;">⌨️</span><br>Enter Code
-                    </button>
+            <section id="view-scan" class="app-view">
+                <div id="reader"></div> <div class="scan-ui">
+                    <div class="scan-frame"></div>
+                    <p>Point camera at bottle code</p>
+                    <button onclick="app.stopScanner()" class="btn-close">✖ Cancel</button>
                 </div>
-            </main>
-        </section>
+            </section>
 
-        <section id="screen-scan" class="view">
-            <div id="qr-reader" style="width: 100%; height: 100%;"></div>
-            <div class="scan-overlay">
-                <p>Point camera at the bottle cap</p>
-                <button onclick="app.closeScanner()" class="btn-close">✖ Close Camera</button>
-            </div>
-        </section>
+            <section id="view-manual" class="app-view">
+                <div class="manual-box">
+                    <button onclick="app.goHome()" class="btn-link">← Go Back</button>
+                    <h2>Enter Code</h2>
+                    <p>Type the 10-digit code from the cap.</p>
+                    <input type="text" id="manual-code" maxlength="10" placeholder="A1B2-C3D4">
+                    <button onclick="app.verifyCode()" class="btn-primary">VERIFY CODE</button>
+                </div>
+            </section>
 
-        <section id="screen-manual" class="view">
-            <div class="manual-box">
-                <button onclick="app.goHome()" class="btn-back">← Back</button>
-                <h3>Enter Cap Code</h3>
-                <p>Type the 10-digit code under the cap</p>
-                <input type="text" id="manual-code" maxlength="10" placeholder="A1B2-C3D4">
-                <button onclick="app.submitCode()" class="btn-main">VERIFY CODE</button>
-            </div>
-        </section>
-
+        </div>
     </div>
 
     <script src="javascript.js"></script>
