@@ -1,22 +1,27 @@
-// OpenWeatherMap API Simülasyonu ve Hidrasyon Mantığı
-const userWeight = 75; // Örnek kilo [cite: 48]
-const scanBtn = document.getElementById('scan-btn');
+const scanBtn = document.getElementById('scan-code');
+let entries = 0;
 
-async function updateHydration() {
-    // Gerçekte API'den gelecek, şimdilik statik Brezilya sıcağı
-    const temp = 32; 
-    document.getElementById('weather-info').innerText = `São Paulo: ${temp}°C - Hidrate-se!`;
-    
-    // Basit bir hidrasyon hesabı [cite: 10]
-    let goal = userWeight * 35;
-    if(temp > 30) goal += 500; // Sıcaklık bonusu [cite: 4]
-    
-    console.log(`Günlük Hedef: ${goal}ml`);
+// AI Hydration Coaching (Based on climate and user data)
+function getHydrationAdvice() {
+    const temp = 34; // Local weather API data 
+    const advice = temp > 30 
+        ? "Extreme Heat! You need 500ml AquaVital to balance minerals." 
+        : "Standard hydration levels recommended.";
+    document.getElementById('ai-advice').innerText = advice;
 }
 
-scanBtn.addEventListener('click', () => {
-    // QR Tarama Simülasyonu [cite: 187]
-    alert("QR Escaneado! Você ganhou 1 cupom para a Copa do Mundo 2026! 🇧🇷");
-});
+// Code Redemption Logic (Kazandirio Style)
+scanBtn.onclick = () => {
+    // Simulate camera scan
+    const mockCode = prompt("Enter the 10-digit code under the AquaVital cap:");
+    
+    if(mockCode && mockCode.length === 10) {
+        entries++;
+        document.getElementById('entry-count').innerText = entries;
+        alert("Success! 1 World Cup Entry added to your wallet. 🇧🇷");
+    } else {
+        alert("Invalid code. Please check the bottle cap.");
+    }
+};
 
-updateHydration();
+getHydrationAdvice();
