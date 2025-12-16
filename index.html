@@ -19,10 +19,10 @@
 
             <section id="page-auth" class="page active">
                 
-                <div class="lang-switch">
-                    <button onclick="app.setLang('tr')" class="lang-btn active">TR</button>
-                    <button onclick="app.setLang('en')" class="lang-btn">EN</button>
-                    <button onclick="app.setLang('pt')" class="lang-btn">PT</button>
+                <div class="lang-container">
+                    <button onclick="app.setLang('tr')" class="flag-btn active" id="btn-tr">🇹🇷</button>
+                    <button onclick="app.setLang('en')" class="flag-btn" id="btn-en">🇬🇧</button>
+                    <button onclick="app.setLang('pt')" class="flag-btn" id="btn-pt">🇧🇷</button>
                 </div>
 
                 <div class="auth-hero">
@@ -32,6 +32,7 @@
                         <p id="txt-subtitle">5 Şanslı Kişiye Bilet Hediye! Kapağı okut, yerini ayırt.</p>
                     </div>
                 </div>
+                
                 <div class="auth-bottom">
                     <div class="input-group">
                         <label id="lbl-name">Adın Soyadın</label>
@@ -64,9 +65,7 @@
                                 <h1 id="entry-count">0</h1>
                                 <span id="txt-rights">HAK</span>
                             </div>
-                            <div class="prize-visual">
-                                🎫⚽
-                            </div>
+                            <div class="prize-visual">🎫⚽</div>
                         </div>
                         <div class="ticket-footer">
                             <p id="txt-prize-info">5 Adet Maç Bileti Verilecektir.</p>
@@ -76,9 +75,7 @@
 
                     <div class="ai-strip">
                         <div class="ai-icon">💧</div>
-                        <div class="ai-msg" id="txt-ai">
-                            <b>Hava Sıcak!</b> Bol su içmeyi unutma.
-                        </div>
+                        <div class="ai-msg" id="txt-ai"><b>Hava Sıcak!</b> Bol su içmeyi unutma.</div>
                     </div>
 
                     <div class="info-card">
@@ -116,11 +113,9 @@
                     <span class="icon">🎫</span>
                     <span id="nav-rights">Haklarım</span>
                 </button>
-                
                 <div class="scan-holder">
                     <button class="scan-btn-main" onclick="app.openScanner()">📷</button>
                 </div>
-
                 <button class="nav-item" onclick="app.openManual()">
                     <span class="icon">⌨️</span>
                     <span id="nav-code">Şifre Gir</span>
