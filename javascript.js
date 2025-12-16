@@ -1,45 +1,83 @@
 const app = {
-    userData: { name: "", entries: 0 },
-
-    showScreen: (screenId) => {
-        document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-        document.getElementById(screenId).style.display = 'flex';
+    state: {
+        userName: "",
+        entries: 0,
+        isScannerRunning: false,
+        qrScanner: null
     },
 
-    completeAuth: () => {
+    // Ekranlar Arası Geçiş (SPA Mantığı)
+    navigateTo: (screenId) => {
+        if (app.state.qrScanner && screenId !== 'screen-scan') {
+            app.state.qrScanner.stop().catch(e => console.log(e));
+        }
+        document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+        document.getElementById(screenId).style.display = 'flex';
+        
+        if (screenId === 'screen-scan') app.initScanner();
+    },
+
+    // Kayıt İşlemi (CRM Verisi Toplama)
+    handleRegistration: () => {
         const name = document.getElementById('reg-name').value;
         const email = document.getElementById('reg-email').value;
         const phone = document.getElementById('reg-phone').value;
 
         if (name && email && phone) {
-            app.userData.name = name;
-            document.getElementById('display-name').innerText = `Hello, ${name.split(' ')[0]}!`;
-            // CRM Kaydı (Simülasyon)
-            console.log("Saving to CRM:", {name, email, phone});
-            app.showScreen('screen-dash');
-            app.runAICoach();
+            app.state.userName = name;
+            document.getElementById('user-greeting').innerText = `Welcome, ${name.split(' ')[0]}!`;
+            // Veri Kaydetme Simülasyonu
+            app.navigateTo('screen-dash');
+            app.startAICoach();
         } else {
-            alert("Please fill all fields to join!");
+            alert("Please complete the form to join the tournament!");
         }
     },
 
-    submitCode: () => {
-        const code = document.getElementById('cap-code-input').value;
+    // Gerçek Kamera QR Tarayıcı Entegrasyonu
+    initScanner: () => {
+        app.state.qrScanner = new Html5Qrcode("qr-reader");
+        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+        app.state.qrScanner.start(
+            { facingMode: "environment" }, 
+            config, 
+            (decodedText) => {
+                app.processCode(decodedText);
+            }
+        ).catch(err => {
+            alert("Camera Permission Required!");
+            app.navigateTo('screen-dash');
+        });
+    },
+
+    // Kod Doğrulama (Kazandirio Mantığı)
+    submitManualCode: () => {
+        const code = document.getElementById('manual-code-input').value;
         if (code.length === 10) {
-            app.userData.entries++;
-            document.getElementById('entry-count').innerText = app.userData.entries;
-            alert("SUCCESS! 1 Entry added for World Cup 2026. 🇧🇷");
-            app.showScreen('screen-dash');
+            app.processCode(code);
         } else {
-            alert("Invalid code. Please enter 10 digits.");
+            alert("Enter a valid 10-digit cap code.");
         }
     },
 
-    runAICoach: () => {
-        const temp = 33; // Local weather simulator
-        const statusText = temp > 30 
-            ? `It's ${temp}°C! High mineral loss. Drink 500ml now!` 
-            : "Hydration levels optimal. Keep it up!";
-        document.getElementById('ai-status').innerText = statusText;
+    processCode: (code) => {
+        // Kod İşleme
+        app.state.entries++;
+        document.getElementById('entry-count').innerText = app.state.entries;
+        alert("GOAL! 1 Ticket Added to Your Wallet! 🇧🇷");
+        app.navigateTo('screen-dash');
+    },
+
+    // AI Hidrasyon Koçu (Gerçek Zamanlı Simülasyon)
+    startAICoach: () => {
+        const temp = 34; // Simüle edilen Brezilya sıcaklığı
+        const advice = document.getElementById('ai-advice');
+        setTimeout(() => {
+            advice.innerText = `It's ${temp}°C in São Paulo! Drink 600ml AquaVital to balance electrolytes.`;
+        }, 1500);
     }
 };
+
+// İlk Ekranı Başlat
+window.onload = () => app.navigateTo('screen-auth');
