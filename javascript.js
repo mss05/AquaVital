@@ -1,7 +1,7 @@
 const langData = {
     tr: {
         title: "FIFA World Cup 2026 Heyecanı!",
-        subtitle: "5 Kişiye Bilet Hediye! Kapağı okut, şansını yakala.",
+        subtitle: "5 Şanslı Kişiye Bilet Hediye! Kapağı okut, yerini ayırt.",
         lblName: "Adın Soyadın",
         phName: "Ad Soyad Giriniz",
         btnLogin: "ÇEKİLİŞE KATIL",
@@ -94,19 +94,18 @@ const langData = {
 const app = {
     scanner: null,
     isScanning: false,
-    currentLang: 'tr', // Varsayılan Dil
+    currentLang: 'tr', 
     user: { name: "", entries: 0 },
 
-    // DİL DEĞİŞTİRME FONKSİYONU
     setLang: (lang) => {
         app.currentLang = lang;
         const data = langData[lang];
 
-        // Buton stillerini güncelle
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll(`.lang-btn[onclick="app.setLang('${lang}')"]`).forEach(btn => btn.classList.add('active'));
+        // Bayrakları güncelle
+        document.querySelectorAll('.flag-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`btn-${lang}`).classList.add('active');
 
-        // Metinleri Güncelle
+        // Metinleri Değiştir
         document.getElementById('txt-title').innerText = data.title;
         document.getElementById('txt-subtitle').innerText = data.subtitle;
         document.getElementById('lbl-name').innerText = data.lblName;
@@ -211,5 +210,4 @@ const app = {
     }
 };
 
-// Başlangıçta Türkçe Yükle
 window.onload = () => app.setLang('tr');
