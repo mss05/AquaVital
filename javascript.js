@@ -1,27 +1,45 @@
-const scanBtn = document.getElementById('scan-code');
-let entries = 0;
+const app = {
+    userData: { name: "", entries: 0 },
 
-// AI Hydration Coaching (Based on climate and user data)
-function getHydrationAdvice() {
-    const temp = 34; // Local weather API data 
-    const advice = temp > 30 
-        ? "Extreme Heat! You need 500ml AquaVital to balance minerals." 
-        : "Standard hydration levels recommended.";
-    document.getElementById('ai-advice').innerText = advice;
-}
+    showScreen: (screenId) => {
+        document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+        document.getElementById(screenId).style.display = 'flex';
+    },
 
-// Code Redemption Logic (Kazandirio Style)
-scanBtn.onclick = () => {
-    // Simulate camera scan
-    const mockCode = prompt("Enter the 10-digit code under the AquaVital cap:");
-    
-    if(mockCode && mockCode.length === 10) {
-        entries++;
-        document.getElementById('entry-count').innerText = entries;
-        alert("Success! 1 World Cup Entry added to your wallet. 🇧🇷");
-    } else {
-        alert("Invalid code. Please check the bottle cap.");
+    completeAuth: () => {
+        const name = document.getElementById('reg-name').value;
+        const email = document.getElementById('reg-email').value;
+        const phone = document.getElementById('reg-phone').value;
+
+        if (name && email && phone) {
+            app.userData.name = name;
+            document.getElementById('display-name').innerText = `Hello, ${name.split(' ')[0]}!`;
+            // CRM Kaydı (Simülasyon)
+            console.log("Saving to CRM:", {name, email, phone});
+            app.showScreen('screen-dash');
+            app.runAICoach();
+        } else {
+            alert("Please fill all fields to join!");
+        }
+    },
+
+    submitCode: () => {
+        const code = document.getElementById('cap-code-input').value;
+        if (code.length === 10) {
+            app.userData.entries++;
+            document.getElementById('entry-count').innerText = app.userData.entries;
+            alert("SUCCESS! 1 Entry added for World Cup 2026. 🇧🇷");
+            app.showScreen('screen-dash');
+        } else {
+            alert("Invalid code. Please enter 10 digits.");
+        }
+    },
+
+    runAICoach: () => {
+        const temp = 33; // Local weather simulator
+        const statusText = temp > 30 
+            ? `It's ${temp}°C! High mineral loss. Drink 500ml now!` 
+            : "Hydration levels optimal. Keep it up!";
+        document.getElementById('ai-status').innerText = statusText;
     }
 };
-
-getHydrationAdvice();
