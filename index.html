@@ -3,63 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AquaVital - World Cup 2026</title>
+    <title>AquaVital - World Cup 2026 Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="app">
         <section id="screen-auth" class="screen">
-            <div class="auth-card">
-                <img src="assets/logo.png" class="logo">
-                <h1>Join the Journey!</h1>
-                <p>Register to win World Cup tickets</p>
-                <div class="form-group">
-                    <input type="text" id="reg-name" placeholder="Full Name">
-                    <input type="email" id="reg-email" placeholder="Email Address">
-                    <input type="tel" id="reg-phone" placeholder="Phone (e.g. +55...)">
+            <div class="overlay">
+                <div class="auth-box">
+                    <img src="assets/logo.png" class="app-logo" alt="AquaVital">
+                    <h2>Win Your Ticket to 2026!</h2>
+                    <p>Register now and scan codes to win a trip to the World Cup in Brazil! 🇧🇷</p>
+                    <div class="form-container">
+                        <input type="text" id="reg-name" placeholder="Full Name" required>
+                        <input type="email" id="reg-email" placeholder="Email Address" required>
+                        <input type="tel" id="reg-phone" placeholder="Phone Number" required>
+                        <button onclick="app.handleRegistration()" class="btn-primary-gold">CREATE ACCOUNT</button>
+                    </div>
                 </div>
-                <button onclick="app.completeAuth()" class="btn-gold">START WINNING</button>
             </div>
         </section>
 
         <section id="screen-dash" class="screen" style="display:none;">
-            <header class="main-header">
-                <div class="profile-summary">
-                    <div class="avatar" onclick="app.showScreen('screen-auth')">👤</div>
-                    <span id="display-name">Hello!</span>
+            <header class="dash-header">
+                <div class="user-profile">
+                    <div class="avatar">👤</div>
+                    <div class="user-text">
+                        <span id="user-greeting">Welcome, Champ!</span>
+                        <p>AquaVital Pro Member</p>
+                    </div>
                 </div>
-                <div class="wallet">
-                    <p>YOUR ENTRIES</p>
-                    <h2 id="entry-count">0</h2>
+                <div class="wallet-card">
+                    <div class="ticket-icon">🎫</div>
+                    <div class="wallet-info">
+                        <p>WORLD CUP ENTRIES</p>
+                        <h1 id="entry-count">0</h1>
+                    </div>
                 </div>
             </header>
 
-            <div class="ai-coach-card">
-                <div class="coach-icon">🤖</div>
-                <div class="coach-text">
-                    <h3>AI Hydration Coach</h3>
-                    <p id="ai-status">Checking São Paulo heat...</p>
+            <main class="dash-content">
+                <div class="ai-status-card">
+                    <div class="ai-icon">⚡</div>
+                    <div class="ai-details">
+                        <h4>AI Hydration Coach</h4>
+                        <p id="ai-advice">Updating local climate data...</p>
+                    </div>
                 </div>
-            </div>
 
-            <nav class="action-grid">
-                <button onclick="app.showScreen('screen-scan')" class="action-btn">
-                    <span>📸</span><br>Scan QR
-                </button>
-                <button onclick="app.showScreen('screen-manual')" class="action-btn">
-                    <span>⌨️</span><br>Enter Code
-                </button>
-            </nav>
+                <div class="actions-grid">
+                    <button class="action-item" onclick="app.navigateTo('screen-scan')">
+                        <div class="icon">📸</div>
+                        <span>Scan QR Code</span>
+                    </button>
+                    <button class="action-item" onclick="app.navigateTo('screen-manual')">
+                        <div class="icon">⌨️</div>
+                        <span>Enter Code</span>
+                    </button>
+                </div>
+            </main>
+        </section>
+
+        <section id="screen-scan" class="screen" style="display:none;">
+            <div id="qr-reader"></div>
+            <div class="scan-controls">
+                <div class="scan-target"></div>
+                <p>Scan the QR on your AquaVital Bottle</p>
+                <button onclick="app.navigateTo('screen-dash')" class="btn-cancel">Cancel</button>
+            </div>
         </section>
 
         <section id="screen-manual" class="screen" style="display:none;">
-            <div class="manual-card">
-                <button class="btn-back" onclick="app.showScreen('screen-dash')">← Back</button>
-                <h2>Enter Cap Code</h2>
-                <p>Type the 10-digit code found under the cap</p>
-                <input type="text" id="cap-code-input" maxlength="10" placeholder="A1B2C3D4E5">
-                <button onclick="app.submitCode()" class="btn-blue">REDEEM CODE</button>
+            <div class="manual-container">
+                <h3>Under the Cap Code</h3>
+                <p>Enter the 10-character unique code printed inside your bottle cap.</p>
+                <input type="text" id="manual-code-input" maxlength="10" placeholder="e.g. AVX99BR26Z">
+                <button onclick="app.submitManualCode()" class="btn-redeem">REDEEM CODE</button>
+                <button onclick="app.navigateTo('screen-dash')" class="btn-link">Back to Home</button>
             </div>
         </section>
     </div>
