@@ -1,7 +1,7 @@
 :root {
-    --blue: #002664; /* Koyu Mavi (Profesyonel) */
-    --gold: #FFC72C; /* Kupa Sarısı */
-    --green: #009C3B; /* Brezilya Yeşili */
+    --blue: #002664;
+    --gold: #FFC72C;
+    --green: #009C3B;
     --bg: #F5F7FA;
     --white: #ffffff;
 }
@@ -40,58 +40,43 @@ body {
 .page {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg); display: none; flex-direction: column;
-    padding-bottom: 90px; /* Navigasyon Payı */
+    padding-bottom: 90px;
 }
 .page.active { display: flex; z-index: 10; }
 
-/* --- GİRİŞ EKRANI DÜZELTMESİ (ÖNEMLİ) --- */
+/* --- GİRİŞ EKRANI --- */
 #page-auth {
-    background: var(--blue);
-    z-index: 50;
-    padding: 0;
-    justify-content: space-between; /* İçeriği yay */
+    background: var(--blue); z-index: 50; padding: 0;
+    justify-content: space-between;
+}
+
+/* DİL SEÇİCİ STİLİ (YENİ) */
+.lang-switch {
+    position: absolute; top: 50px; right: 20px;
+    display: flex; gap: 8px; z-index: 100;
+}
+.lang-btn {
+    background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4);
+    color: white; padding: 5px 10px; border-radius: 8px;
+    font-size: 11px; font-weight: 700; cursor: pointer;
+}
+.lang-btn.active {
+    background: var(--gold); color: var(--blue); border-color: var(--gold);
 }
 
 .auth-hero {
-    flex: 1; /* Boşluğu kapla */
-    display: flex;
-    flex-direction: column; /* ALT ALTA DİZ (Hatanın çözümü) */
-    justify-content: center; /* Dikey ortala */
-    align-items: center; /* Yatay ortala */
-    text-align: center;
-    color: white;
-    padding: 50px 30px;
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+    color: white; padding: 50px 30px;
 }
-
-.hero-logo {
-    width: 160px; /* Logoyu biraz büyüttüm */
-    margin-bottom: 30px; /* Yazı ile arasına mesafe */
-    display: block;
-}
-
-.hero-text h1 {
-    font-size: 32px;
-    margin-bottom: 15px;
-    line-height: 1.2;
-    font-weight: 800;
-}
-
-.hero-text p {
-    font-size: 16px;
-    opacity: 0.9;
-    max-width: 300px;
-    margin: 0 auto;
-    line-height: 1.5;
-}
+.hero-logo { width: 160px; margin-bottom: 30px; display: block; }
+.hero-text h1 { font-size: 30px; margin-bottom: 15px; line-height: 1.2; font-weight: 800; }
+.hero-text p { font-size: 15px; opacity: 0.9; max-width: 300px; margin: 0 auto; line-height: 1.5; }
 
 .auth-bottom {
-    background: white;
-    padding: 40px 30px 60px; /* Alt kısma biraz daha boşluk */
-    border-top-left-radius: 35px;
-    border-top-right-radius: 35px;
-    width: 100%;
+    background: white; padding: 40px 30px 60px;
+    border-top-left-radius: 35px; border-top-right-radius: 35px; width: 100%;
 }
-/* --------------------------------------- */
 
 /* Ana Sayfa */
 .home-head {
@@ -107,7 +92,7 @@ body {
 
 .scroll-content { padding: 20px; overflow-y: auto; }
 
-/* Bilet/Ödül Kartı */
+/* Bilet Kartı (World Cup Temalı) */
 .ticket-card {
     background: linear-gradient(135deg, var(--blue), #001538);
     border-radius: 20px; padding: 0; color: white;
@@ -123,10 +108,10 @@ body {
 .ticket-body { padding: 30px 20px; display: flex; justify-content: space-between; align-items: center; }
 .entry-counter h1 { font-size: 56px; line-height: 1; margin-bottom: 5px; color: var(--gold); }
 .entry-counter span { font-size: 14px; opacity: 0.8; text-transform: uppercase; }
-.prize-visual { font-size: 60px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); }
+.prize-visual { font-size: 50px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); }
 .ticket-footer { padding: 15px 20px; background: rgba(255,255,255,0.05); font-size: 12px; border-top: 1px dashed rgba(255,255,255,0.2); }
 
-/* AI Şeridi */
+/* Diğer Bileşenler */
 .ai-strip {
     background: white; padding: 15px; border-radius: 12px;
     display: flex; align-items: center; gap: 15px; margin-bottom: 20px;
@@ -136,14 +121,13 @@ body {
 .ai-msg { font-size: 13px; color: #555; }
 .ai-msg b { color: var(--blue); }
 
-/* Bilgi Kartı */
 .info-card { background: white; padding: 20px; border-radius: 16px; }
 .info-card h3 { font-size: 16px; margin-bottom: 15px; }
 .info-card ul { list-style: none; padding: 0; }
 .info-card li { font-size: 13px; color: #666; margin-bottom: 8px; position: relative; padding-left: 15px; }
 .info-card li::before { content: '•'; color: var(--gold); position: absolute; left: 0; font-weight: bold; }
 
-/* Alt Menü (Kazandirio Stili - Ortası Çıkıntılı) */
+/* Alt Menü */
 .nav-bar {
     position: absolute; bottom: 0; left: 0; width: 100%; height: 80px;
     background: white; display: flex; justify-content: space-between; align-items: center;
@@ -165,7 +149,7 @@ body {
     box-shadow: 0 10px 20px rgba(0,0,0,0.15); cursor: pointer;
 }
 
-/* Scanner UI */
+/* Scanner & Input */
 #reader { width: 100%; height: 100%; object-fit: cover; }
 .scan-ui {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -179,12 +163,10 @@ body {
 }
 .scan-frame {
     width: 250px; height: 250px; border: 4px solid var(--gold);
-    border-radius: 24px; box-shadow: 0 0 0 1000px rgba(0,0,0,0.7);
-    position: relative;
+    border-radius: 24px; box-shadow: 0 0 0 1000px rgba(0,0,0,0.7); position: relative;
 }
 .scan-ui p { margin-top: 20px; color: white; font-weight: 600; z-index: 10; }
 
-/* Manuel Giriş */
 .manual-wrap { background: white; height: 100%; padding: 60px 30px; }
 .input-group label { display: block; font-size: 12px; margin-bottom: 8px; font-weight: 600; }
 .manual-wrap h2 { color: var(--blue); margin-bottom: 10px; }
@@ -193,8 +175,7 @@ input { width: 100%; padding: 16px; border: 2px solid #eee; border-radius: 12px;
 input:focus { border-color: var(--blue); outline: none; }
 .btn-primary {
     width: 100%; padding: 18px; background: var(--blue); color: white;
-    border: none; border-radius: 12px; font-weight: 700; cursor: pointer;
-    font-size: 16px;
+    border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px;
 }
 .btn-text { background: none; border: none; color: #666; margin-bottom: 20px; cursor: pointer; font-weight: 600; }
 
