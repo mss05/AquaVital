@@ -1,76 +1,96 @@
 const app = {
-    scanner: null, // Kamera nesnesi
-    user: { name: "", entries: 0 },
+    scanner: null,
+    isScanning: false, // Kamera durumunu takip eder
+    user: { name: "Guest", entries: 0 },
 
-    // Ekran Değiştirme Fonksiyonu
-    showView: (viewId) => {
-        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
+    // Ekran Değiştirici
+    showScreen: (id) => {
+        document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
     },
 
-    // 1. GİRİŞ YAP
+    // 1. GİRİŞ
     login: () => {
         const name = document.getElementById('user-name').value;
         if(name) {
             app.user.name = name;
-            document.getElementById('display-name').innerText = `Olá, ${name}!`;
-            app.showView('screen-dash');
-            app.startAI(); // AI'yi başlat
+            document.getElementById('display-name').innerText = name;
+            app.showScreen('view-dash');
+            app.startAI();
         } else {
             alert("Please enter your name!");
         }
     },
 
-    // 2. KAMERAYI AÇ (Gerçek QR)
-    openScanner: () => {
-        app.showView('screen-scan');
-        app.scanner = new Html5Qrcode("qr-reader");
+    // 2. KAMERA BAŞLAT (Güvenli)
+    startScanner: () => {
+        app.showScreen('view-scan');
         
+        // Eğer zaten açıksa tekrar başlatma
+        if(app.isScanning) return;
+
+        app.scanner = new Html5Qrcode("reader");
+        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
         app.scanner.start(
-            { facingMode: "environment" }, 
-            { fps: 10, qrbox: 250 },
+            { facingMode: "environment" },
+            config,
             (decodedText) => {
-                // Kod okundu!
                 app.handleSuccess(decodedText);
-                app.closeScanner();
+            },
+            (err) => { /* Hata loglamasını kapattık */ }
+        ).then(() => {
+            app.isScanning = true;
+        }).catch(err => {
+            console.error("Kamera Hatası:", err);
+            alert("Kamera açılamadı! Lütfen HTTPS veya Localhost kullanın.");
+            app.stopScanner();
+        });
+    },
+
+    // 3. KAMERA DURDUR (Async/Await - Çökme Önleyici)
+    stopScanner: async () => {
+        if(app.scanner && app.isScanning) {
+            try {
+                await app.scanner.stop();
+                app.scanner.clear();
+                app.isScanning = false;
+            } catch (err) {
+                console.log("Durdurma hatası:", err);
             }
-        ).catch(err => console.log("Kamera Hatası:", err));
-    },
-
-    closeScanner: () => {
-        if(app.scanner) {
-            app.scanner.stop().then(() => app.scanner.clear());
         }
-        app.showView('screen-dash');
-    },
-
-    // 3. MANUEL KOD GİRİŞİ
-    openManual: () => app.showView('screen-manual'),
-    goHome: () => app.showView('screen-dash'),
-    
-    submitCode: () => {
-        const code = document.getElementById('manual-code').value;
-        if(code.length === 10) {
-            app.handleSuccess(code);
-        } else {
-            alert("Invalid Code! Must be 10 digits.");
-        }
+        app.showScreen('view-dash');
     },
 
     // 4. BAŞARI SENARYOSU
     handleSuccess: (code) => {
-        app.user.entries++;
-        document.getElementById('entry-count').innerText = app.user.entries;
-        alert(`SUCCESS! 🇧🇷\nCode: ${code}\nYou are 1 step closer to World Cup 2026!`);
-        app.goHome();
+        // Önce kamerayı güvenli kapat, sonra alert ver
+        app.stopScanner().then(() => {
+            app.user.entries++;
+            document.getElementById('ticket-count').innerText = app.user.entries;
+            alert(`SUCCESS! Code Verified: ${code}\n1 Entry Added! 🇧🇷`);
+        });
     },
 
-    // 5. AI HIDRASYON KOÇU
+    // 5. MANUEL GİRİŞ
+    openManual: () => app.showScreen('view-manual'),
+    goHome: () => app.showScreen('view-dash'),
+
+    verifyCode: () => {
+        const code = document.getElementById('manual-code').value;
+        if(code.length === 10) {
+            app.handleSuccess(code);
+            app.goHome();
+        } else {
+            alert("Invalid Code (Must be 10 digits)");
+        }
+    },
+
+    // AI SİMÜLASYONU
     startAI: () => {
         setTimeout(() => {
-            const temp = 34; // Simüle edilen sıcaklık
-            document.getElementById('ai-msg').innerText = `São Paulo is ${temp}°C! Drink 500ml now.`;
-            document.querySelector('.status-indicator').style.backgroundColor = "red";
+            document.getElementById('ai-text').innerText = "São Paulo: 34°C - Drink 500ml!";
+            document.querySelector('.status-light').style.background = "#009739"; // Yeşil
         }, 2000);
     }
 };
