@@ -1,89 +1,82 @@
 const app = {
     scanner: null,
     isScanning: false,
-    user: { name: "", tickets: 0 },
+    user: { name: "", entries: 0 },
 
-    // Ekran Değiştir
-    show: (id) => {
-        // Tüm sayfaları gizle
+    // Sayfa Geçiş
+    go: (pageId) => {
+        if(app.isScanning) app.stopScanner();
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        // İstenen sayfayı göster
-        document.getElementById(id).classList.add('active');
+        document.getElementById(pageId).classList.add('active');
         
-        // Alt menü sadece Home ekranında görünsün
+        // Menü yönetimi (sadece Home ve Manual'de mantıklı)
         const nav = document.getElementById('bottom-nav');
-        if (id === 'view-home') nav.style.display = 'flex';
+        if(pageId === 'page-home') nav.style.display = 'flex';
         else nav.style.display = 'none';
     },
 
+    // Toast Bildirim
+    notify: (msg) => {
+        const toast = document.getElementById('toast-box');
+        toast.innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    },
+
     login: () => {
-        const name = document.getElementById('inp-name').value;
-        if (!name) return alert("Lütfen adını gir!");
+        const name = document.getElementById('login-name').value;
+        if(!name) return app.notify("Adını girmelisin!");
+        
         app.user.name = name;
         document.getElementById('display-name').innerText = name;
-        app.show('view-home');
-        app.startAI();
+        app.go('page-home');
+        app.notify("Giriş Başarılı! Bol şans.");
     },
 
-    // KAMERA İŞLEMLERİ (Async/Await ile Çökme Önleyici)
-    startScanner: () => {
-        app.show('view-scan');
-        if (app.isScanning) return;
+    // Hak Ekleme (Tek Mantık)
+    addEntry: () => {
+        app.user.entries++;
+        document.getElementById('entry-count').innerText = app.user.entries;
+        app.notify("TEBRİKLER! +1 Çekiliş Hakkı Eklendi 🇧🇷");
+    },
 
+    // Kamera
+    openScanner: () => {
+        app.go('page-scan');
         app.scanner = new Html5Qrcode("reader");
-        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-
-        app.scanner.start(
-            { facingMode: "environment" },
-            config,
+        app.scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
             (decodedText) => {
-                app.handleSuccess(decodedText);
+                app.closeScanner();
+                app.addEntry();
             },
             (err) => {}
-        ).then(() => {
-            app.isScanning = true;
-        }).catch(err => {
-            alert("Kamera hatası: Lütfen HTTPS kullan.");
-            app.stopScanner();
-        });
+        ).then(() => { app.isScanning = true; })
+         .catch(() => { 
+             app.notify("Kamera hatası. Şifreyi elle gir."); 
+             app.go('page-manual'); 
+         });
     },
 
-    stopScanner: async () => {
-        if (app.scanner && app.isScanning) {
-            try {
-                await app.scanner.stop();
-                app.scanner.clear();
-                app.isScanning = false;
-            } catch (err) { console.log(err); }
+    closeScanner: async () => {
+        if(app.scanner && app.isScanning) {
+            await app.scanner.stop();
+            app.scanner.clear();
+            app.isScanning = false;
         }
-        app.show('view-home');
-    },
-
-    handleSuccess: (code) => {
-        app.stopScanner().then(() => {
-            app.user.tickets++;
-            document.getElementById('ticket-count').innerText = app.user.tickets;
-            alert(`TEBRİKLER! 🎉\nKod Onaylandı: ${code}\n1 Çekiliş Hakkı Eklendi.`);
-        });
+        app.go('page-home');
     },
 
     // Manuel Giriş
-    openManual: () => app.show('view-manual'),
-    goHome: () => app.show('view-home'),
+    openManual: () => app.go('page-manual'),
+    goHome: () => app.go('page-home'),
 
-    verifyCode: () => {
+    submitCode: () => {
         const code = document.getElementById('manual-code').value;
-        if (code.length === 10) {
-            app.handleSuccess(code);
-            app.goHome();
+        if(code.length === 10) {
+            app.addEntry();
+            app.go('page-home');
         } else {
-            alert("Hatalı Kod! Lütfen 10 haneli kodu kontrol et.");
+            app.notify("Kod hatalı! 10 haneli olmalı.");
         }
-    },
-
-    startAI: () => {
-        setTimeout(() => {
-            document.getElementById('ai-text').innerText = "Hava sıcak (34°C). 500ml su içmelisin!";
-        }, 2000);
     }
 };
