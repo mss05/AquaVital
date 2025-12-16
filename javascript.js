@@ -1,83 +1,76 @@
 const app = {
-    state: {
-        userName: "",
-        entries: 0,
-        isScannerRunning: false,
-        qrScanner: null
+    scanner: null, // Kamera nesnesi
+    user: { name: "", entries: 0 },
+
+    // Ekran Değiştirme Fonksiyonu
+    showView: (viewId) => {
+        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
     },
 
-    // Ekranlar Arası Geçiş (SPA Mantığı)
-    navigateTo: (screenId) => {
-        if (app.state.qrScanner && screenId !== 'screen-scan') {
-            app.state.qrScanner.stop().catch(e => console.log(e));
+    // 1. GİRİŞ YAP
+    login: () => {
+        const name = document.getElementById('user-name').value;
+        if(name) {
+            app.user.name = name;
+            document.getElementById('display-name').innerText = `Olá, ${name}!`;
+            app.showView('screen-dash');
+            app.startAI(); // AI'yi başlat
+        } else {
+            alert("Please enter your name!");
         }
-        document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-        document.getElementById(screenId).style.display = 'flex';
+    },
+
+    // 2. KAMERAYI AÇ (Gerçek QR)
+    openScanner: () => {
+        app.showView('screen-scan');
+        app.scanner = new Html5Qrcode("qr-reader");
         
-        if (screenId === 'screen-scan') app.initScanner();
-    },
-
-    // Kayıt İşlemi (CRM Verisi Toplama)
-    handleRegistration: () => {
-        const name = document.getElementById('reg-name').value;
-        const email = document.getElementById('reg-email').value;
-        const phone = document.getElementById('reg-phone').value;
-
-        if (name && email && phone) {
-            app.state.userName = name;
-            document.getElementById('user-greeting').innerText = `Welcome, ${name.split(' ')[0]}!`;
-            // Veri Kaydetme Simülasyonu
-            app.navigateTo('screen-dash');
-            app.startAICoach();
-        } else {
-            alert("Please complete the form to join the tournament!");
-        }
-    },
-
-    // Gerçek Kamera QR Tarayıcı Entegrasyonu
-    initScanner: () => {
-        app.state.qrScanner = new Html5Qrcode("qr-reader");
-        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-
-        app.state.qrScanner.start(
+        app.scanner.start(
             { facingMode: "environment" }, 
-            config, 
+            { fps: 10, qrbox: 250 },
             (decodedText) => {
-                app.processCode(decodedText);
+                // Kod okundu!
+                app.handleSuccess(decodedText);
+                app.closeScanner();
             }
-        ).catch(err => {
-            alert("Camera Permission Required!");
-            app.navigateTo('screen-dash');
-        });
+        ).catch(err => console.log("Kamera Hatası:", err));
     },
 
-    // Kod Doğrulama (Kazandirio Mantığı)
-    submitManualCode: () => {
-        const code = document.getElementById('manual-code-input').value;
-        if (code.length === 10) {
-            app.processCode(code);
+    closeScanner: () => {
+        if(app.scanner) {
+            app.scanner.stop().then(() => app.scanner.clear());
+        }
+        app.showView('screen-dash');
+    },
+
+    // 3. MANUEL KOD GİRİŞİ
+    openManual: () => app.showView('screen-manual'),
+    goHome: () => app.showView('screen-dash'),
+    
+    submitCode: () => {
+        const code = document.getElementById('manual-code').value;
+        if(code.length === 10) {
+            app.handleSuccess(code);
         } else {
-            alert("Enter a valid 10-digit cap code.");
+            alert("Invalid Code! Must be 10 digits.");
         }
     },
 
-    processCode: (code) => {
-        // Kod İşleme
-        app.state.entries++;
-        document.getElementById('entry-count').innerText = app.state.entries;
-        alert("GOAL! 1 Ticket Added to Your Wallet! 🇧🇷");
-        app.navigateTo('screen-dash');
+    // 4. BAŞARI SENARYOSU
+    handleSuccess: (code) => {
+        app.user.entries++;
+        document.getElementById('entry-count').innerText = app.user.entries;
+        alert(`SUCCESS! 🇧🇷\nCode: ${code}\nYou are 1 step closer to World Cup 2026!`);
+        app.goHome();
     },
 
-    // AI Hidrasyon Koçu (Gerçek Zamanlı Simülasyon)
-    startAICoach: () => {
-        const temp = 34; // Simüle edilen Brezilya sıcaklığı
-        const advice = document.getElementById('ai-advice');
+    // 5. AI HIDRASYON KOÇU
+    startAI: () => {
         setTimeout(() => {
-            advice.innerText = `It's ${temp}°C in São Paulo! Drink 600ml AquaVital to balance electrolytes.`;
-        }, 1500);
+            const temp = 34; // Simüle edilen sıcaklık
+            document.getElementById('ai-msg').innerText = `São Paulo is ${temp}°C! Drink 500ml now.`;
+            document.querySelector('.status-indicator').style.backgroundColor = "red";
+        }, 2000);
     }
 };
-
-// İlk Ekranı Başlat
-window.onload = () => app.navigateTo('screen-auth');
