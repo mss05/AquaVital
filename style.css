@@ -1,67 +1,46 @@
 :root {
-    --aqua-blue: #00AEEF;
+    --aqua-main: #00AEEF;
+    --gold: #FEDD00;
     --brazil-green: #009739;
-    --brazil-yellow: #FEDD00;
-    --white: #ffffff;
+    --dark: #1a1a1a;
 }
 
-body {
-    background-color: #f0f4f7;
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    display: flex;
-    justify-content: center;
+body { background: #f0f2f5; font-family: 'Inter', sans-serif; margin: 0; }
+
+.wallet-header {
+    background: var(--aqua-main);
+    padding: 40px 20px;
+    border-radius: 0 0 30px 30px;
+    color: white;
 }
 
-#app {
-    width: 100%;
-    max-width: 400px;
-    background: var(--white);
-    min-height: 100vh;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
-
-header {
-    background: var(--aqua-blue);
-    color: var(--white);
-    padding: 20px;
-    text-align: center;
-    border-bottom-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-}
-
-.hydration-card {
-    margin: 20px;
+.balance-card {
+    background: rgba(255,255,255,0.15);
     padding: 20px;
     border-radius: 20px;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 20px;
+    margin-top: -30px;
+}
+
+.action-item {
     background: white;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
     text-align: center;
-}
-
-.progress-circle {
-    width: 150px;
-    height: 150px;
-    border: 10px solid var(--brazil-green);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px auto;
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--brazil-green);
-}
-
-.primary-btn {
-    background: var(--brazil-yellow);
-    color: #333;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-weight: bold;
     cursor: pointer;
-    margin: 20px auto;
-    display: block;
-    width: 80%;
 }
+
+#scan-code { border: 2px solid var(--gold); }
+
+.hydration-monitor { padding: 20px; }
+.status-box { background: white; padding: 20px; border-radius: 20px; }
+#fill { height: 10px; background: var(--brazil-green); width: 45%; border-radius: 5px; }
