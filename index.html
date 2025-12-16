@@ -1,131 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AquaVital - Kazandırıyor</title>
+    <title>AquaVital - World Cup</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/html5-qrcode"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="phone-frame">
         <div class="notch"></div>
         
-        <div class="app-container">
+        <div class="app-screen">
             
-            <div id="content-area">
-                
-                <section id="view-auth" class="page active">
-                    <div class="auth-hero">
-                        <img src="logo.png" alt="AquaVital" class="brand-logo">
-                    </div>
-                    <div class="auth-form-container">
-                        <h2>Hemen Kazanmaya Başla!</h2>
-                        <p>Dünya Kupası 2026 Biletin Seni Bekliyor</p>
-                        <div class="input-wrapper">
-                            <input type="text" id="inp-name" placeholder="Adın Soyadın">
-                        </div>
-                        <button onclick="app.login()" class="btn-primary">GİRİŞ YAP</button>
-                    </div>
-                </section>
+            <div id="toast-box"></div>
 
-                <section id="view-home" class="page">
-                    <header class="home-header">
-                        <div class="user-hello">
-                            <small>Hoş geldin,</small>
+            <section id="page-auth" class="page active">
+                <div class="auth-hero">
+                    <img src="logo.png" class="hero-logo" onerror="this.src='https://placehold.co/150x50/0063E5/white?text=AquaVital'">
+                    <div class="hero-text">
+                        <h1>Brezilya Yolcusu<br>Kalmasın! 🇧🇷</h1>
+                        <p>AquaVital World Cup Edition kapağını okut, 2026 Dünya Kupası şansını yakala.</p>
+                    </div>
+                </div>
+                <div class="auth-bottom">
+                    <div class="input-group">
+                        <label>Adın Soyadın</label>
+                        <input type="text" id="login-name" placeholder="Ad Soyad">
+                    </div>
+                    <button onclick="app.login()" class="btn-primary">ÇEKİLİŞE KATIL</button>
+                </div>
+            </section>
+
+            <section id="page-home" class="page">
+                <header class="home-head">
+                    <div class="user-info">
+                        <div class="avatar">👤</div>
+                        <div class="u-text">
+                            <small>Merhaba,</small>
                             <span id="display-name">Misafir</span>
                         </div>
-                        <div class="header-icon">🔔</div>
-                    </header>
+                    </div>
+                    <div class="logo-small">AquaVital 2026</div>
+                </header>
 
-                    <div class="scrollable-content">
-                        <div class="wallet-banner">
-                            <div class="wallet-bg-overlay"></div>
-                            <div class="wallet-content">
-                                <div class="wallet-top">
-                                    <span>TOPLAM ÇEKİLİŞ HAKKI</span>
-                                    <img src="logo.png" class="mini-logo">
-                                </div>
-                                <div class="wallet-main">
-                                    <h1 id="ticket-count">0</h1>
-                                    <span class="unit">Adet</span>
-                                </div>
-                                <div class="wallet-footer">
-                                    <div class="tag">🏆 World Cup 2026</div>
-                                    <small>Son Güncelleme: Şimdi</small>
-                                </div>
+                <div class="scroll-content">
+                    <div class="ticket-card">
+                        <div class="ticket-header">
+                            <span>DÜNYA KUPASI 2026</span>
+                            <span class="badge">Çekiliş</span>
+                        </div>
+                        <div class="ticket-body">
+                            <div class="entry-counter">
+                                <h1 id="entry-count">0</h1>
+                                <span>HAK</span>
+                            </div>
+                            <div class="prize-visual">
+                                ✈️🇧🇷
                             </div>
                         </div>
-
-                        <h3 class="section-title">Hızlı İşlemler</h3>
-                        <div class="actions-row">
-                            <button onclick="app.startScanner()" class="action-card blue">
-                                <div class="icon-circle">📸</div>
-                                <span>Okut Kazan</span>
-                            </button>
-                            <button onclick="app.openManual()" class="action-card orange">
-                                <div class="icon-circle">⌨️</div>
-                                <span>Şifre Gir</span>
-                            </button>
-                        </div>
-
-                        <div class="ai-banner">
-                            <div class="ai-left">
-                                <div class="pulse-dot"></div>
-                                <div class="ai-info">
-                                    <h4>Hidrasyon Koçu</h4>
-                                    <p id="ai-text">Veriler analiz ediliyor...</p>
-                                </div>
-                            </div>
+                        <div class="ticket-footer">
+                            <p>Her kapak +1 Çekiliş Hakkı</p>
+                            <small>Çekiliş Tarihi: 30.06.2026</small>
                         </div>
                     </div>
-                </section>
 
-                <section id="view-scan" class="page">
-                    <div id="reader"></div>
-                    <div class="scan-overlay-ui">
-                        <div class="scan-header">
-                            <button onclick="app.stopScanner()" class="btn-icon">✖</button>
-                            <span>Kapağı Okut</span>
-                        </div>
-                        <div class="scan-guide">
-                            <div class="guide-frame"></div>
-                            <p>QR Kodu çerçevenin içine getir</p>
+                    <div class="ai-strip">
+                        <div class="ai-icon">💧</div>
+                        <div class="ai-msg">
+                            <b>Hava Sıcak (32°C)!</b> Terle kaybettiğin mineralleri geri kazan.
                         </div>
                     </div>
-                </section>
 
-                <section id="view-manual" class="page">
-                    <div class="page-header">
-                        <button onclick="app.goHome()" class="btn-text">← Geri</button>
-                        <h3>Şifre Gir</h3>
+                    <div class="info-card">
+                        <h3>Nasıl Kazanırım?</h3>
+                        <ul>
+                            <li>1. AquaVital World Cup şişesini al.</li>
+                            <li>2. Kapağın altındaki QR kodu okut.</li>
+                            <li>3. Brezilya tatili kazanma şansı yakala!</li>
+                        </ul>
                     </div>
-                    <div class="manual-body">
-                        <div class="input-card">
-                            <label>Kapak Altındaki Şifre</label>
-                            <input type="text" id="manual-code" maxlength="10" placeholder="Örn: A1B2C3D4">
-                            <button onclick="app.verifyCode()" class="btn-primary mt-20">GÖNDER</button>
-                        </div>
-                    </div>
-                </section>
-
-            </div>
-
-            <nav id="bottom-nav" class="bottom-bar">
-                <div class="nav-item active">
-                    <span class="nav-icon">🏠</span>
-                    <span class="nav-text">Cüzdanım</span>
                 </div>
-                <div class="nav-item">
-                    <span class="nav-icon">🎁</span>
-                    <span class="nav-text">Kampanyalar</span>
+            </section>
+
+            <section id="page-scan" class="page">
+                <div id="reader"></div>
+                <div class="scan-ui">
+                    <button onclick="app.closeScanner()" class="btn-close">Vazgeç ✖</button>
+                    <div class="scan-frame"></div>
+                    <p>QR Kodu Çerçeveye Getir</p>
                 </div>
-                <div class="nav-item">
-                    <span class="nav-icon">👤</span>
-                    <span class="nav-text">Profil</span>
+            </section>
+
+            <section id="page-manual" class="page">
+                <div class="manual-wrap">
+                    <button onclick="app.goHome()" class="btn-text">← Geri Dön</button>
+                    <h2>Şifreyi Gir</h2>
+                    <p>Kamera çalışmıyorsa kapak altındaki kodu buraya yazabilirsin.</p>
+                    <input type="text" id="manual-code" maxlength="10" placeholder="KODU BURAYA GİR">
+                    <button onclick="app.submitCode()" class="btn-primary">GÖNDER</button>
                 </div>
+            </section>
+
+            <nav id="bottom-nav" class="nav-bar">
+                <button class="nav-item active" onclick="app.goHome()">
+                    <span class="icon">🎫</span>
+                    <span>Haklarım</span>
+                </button>
+                
+                <div class="scan-holder">
+                    <button class="scan-btn-main" onclick="app.openScanner()">
+                        📷
+                    </button>
+                </div>
+
+                <button class="nav-item" onclick="app.openManual()">
+                    <span class="icon">⌨️</span>
+                    <span>Şifre Gir</span>
+                </button>
             </nav>
 
         </div>
